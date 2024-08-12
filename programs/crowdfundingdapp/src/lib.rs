@@ -27,5 +27,14 @@ pub mod crowdfundingdapp {
     pub system_program: Program<'info,System>
 
    }
+   #[account]
+   pub struct Campaign {
+
+    pub admin : Pubkey,
+    pub name : String,
+    pub description : String,
+    pub amount_donated:u64
+
+   }
 }
 
