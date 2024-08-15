@@ -1,4 +1,5 @@
 import './App.css';
+import idl from "./idl.json"
 import { useEffect, useState } from 'react';
 import React from 'react';
 
