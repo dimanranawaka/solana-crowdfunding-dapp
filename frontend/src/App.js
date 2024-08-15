@@ -1,25 +1,35 @@
-import logo from './logo.svg';
 import './App.css';
+import { useEffect } from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+const App = () => {
+
+  const checkIfWalletIsConnected = async () => {
+
+    try {
+
+      const { solana } = window;
+      if (solana.isPhantom) {
+        console.log("Phantom Wallet Detected !");
+      }
+      else {
+        alert("Solana Object not found ! Get Phantom Wallet")
+      }
+
+    } catch (error) {
+
+      console.error(error);
+    }
+
+  };
+
+  useEffect(() => {
+    const onLoad = async () => {
+      await checkIfWalletIsConnected();
+    }
+    window.addEventListener("load", onLoad);
+  }, []);
+
 }
 
 export default App;
