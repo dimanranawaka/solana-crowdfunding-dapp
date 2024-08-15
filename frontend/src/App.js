@@ -3,12 +3,32 @@ import idl from "./idl.json"
 import { useEffect, useState } from 'react';
 import React from 'react';
 
+import { Connection, PublicKey, clusterApiUrl } from '@solana/web3.js';
+import { Program, AnchorProvider, web3, utils, BN } from '@coral-xyz/anchor';
+
+const programID = new PublicKey(idl.metadata.address);
+const network = clusterApiUrl('devnet');
+const opts = {
+  preflightCommitment: "processed",
+}
+
+const { SystemProgram } = web3;
 
 const App = () => {
   const [walletAddress, setWalletAddress] = useState(null);
 
   const checkIfWalletIsConnected = async () => {
 
+    const getProvider = () => {
+      const connection = new Connection(network, opts.preflightCommitment);
+      const provider = new AnchorProvider(
+        connection,
+        window.solana,
+        opts.preflightCommitment
+      );
+
+      return provider;
+    }
     try {
 
       const { solana } = window;
