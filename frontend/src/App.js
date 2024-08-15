@@ -1,9 +1,10 @@
 import './App.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import React from 'react';
 
 
 const App = () => {
+  const [walletAddress, setWalletAddress] = useState(null);
 
   const checkIfWalletIsConnected = async () => {
 
@@ -16,7 +17,9 @@ const App = () => {
         const response = await solana.connect({
           onlyIfTrusted: true,
         });
-        console.log("Connected with public key:", response.publicKey.toString())
+        console.log("Connected with public key:", response.publicKey.toString());
+
+        setWalletAddress(response.publicKey.toString())
       }
       else {
         alert("Solana Object not found ! Get Phantom Wallet")
@@ -31,6 +34,16 @@ const App = () => {
 
   const connectWallet = async () => {
 
+    const { solana } = window;
+
+    if (solana) {
+      const response = solana.connect();
+      console.log('Connected with public key :', response.publicKey.toString());
+      setWalletAddress(response.publicKey.toString())
+    }
+
+
+
   }
 
   const renderNotConnectedContainer = () => {
@@ -43,7 +56,7 @@ const App = () => {
     }
     window.addEventListener("load", onLoad);
   }, []);
-  return (<div className='App'>{renderNotConnectedContainer()}</div>);
+  return (<div className='App'>{!walletAddress && renderNotConnectedContainer()}</div>);
 
 }
 
